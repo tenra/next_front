@@ -1,4 +1,4 @@
-export interface Post {
+export interface Promotion {
     id: number
     //threadId: number
     title: string

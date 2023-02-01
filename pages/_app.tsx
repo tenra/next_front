@@ -2,7 +2,8 @@ import React from 'react';
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import Head from 'next/head';
-import Layout from "components/Layout";
+import Layout from "components/layouts";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 export default function App({ Component, pageProps }: AppProps) {
 
@@ -15,7 +16,16 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <Component {...pageProps} />
+        <Auth0Provider
+          domain={process.env["NEXT_PUBLIC_AUTH0_DOMAIN"]!}
+          clientId={process.env["NEXT_PUBLIC_AUTH0_CLIENT_ID"]!}
+          authorizationParams={{
+            redirect_uri: `${process.env["NEXT_PUBLIC_FRONT_URL"]}/mypage`,
+            audience: process.env["NEXT_PUBLIC_AUTH0_AUDIENCE"],
+          }}
+        >
+          <Component {...pageProps} />
+        </Auth0Provider>
       </Layout>
     </>
   )

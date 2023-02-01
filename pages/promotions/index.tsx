@@ -4,18 +4,18 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useQuery } from "@tanstack/react-query";
-import { Post } from 'models';
+import { Promotion } from 'models';
 
-interface PostsPageProps {
-    posts: Post[]
+interface PromotionsPageProps {
+    promotions: Promotion[]
 }
 
-const PostsPage: NextPage<PostsPageProps> = ({ posts }) => {
+const PromotionsPage: NextPage<PromotionsPageProps> = ({ promotions }) => {
 
     const [page, setPage] = useState(1);
 
     const fetchPosts = async () => {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/posts`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/promotions`);
         return res.json();
     }
 
@@ -23,29 +23,29 @@ const PostsPage: NextPage<PostsPageProps> = ({ posts }) => {
         isLoading,
         isError,
         error,
-        data: posts_data,
+        data,
         isFetching,
         isPreviousData
-    } = useQuery(['posts', page], () => fetchPosts(), { keepPreviousData: true });
+    } = useQuery(['posts', page], () => fetchPosts());
 
     if (isLoading) {
         return <div className="loader"></div>
     }
 
-    if (!posts_data) {
+    if (!data) {
         return <p>can not fetch posts</p>
     }
 
-    console.log(posts_data)
+    console.log(data)
 
     return (
         <>
-            {posts_data?.map((post: any, index: number) => {
+            {data?.map((promotion: any, index: number) => {
             return (
                 <div key={index}>
-                <p>{post.id}</p>
-                <p>{post.title}</p>
-                <p>{post.content}</p>
+                <p>{promotion.id}</p>
+                <p>{promotion.title}</p>
+                <p>{promotion.content}</p>
                 </div>
             )
             })}
@@ -53,4 +53,4 @@ const PostsPage: NextPage<PostsPageProps> = ({ posts }) => {
     )
 }
 
-export default PostsPage;
+export default PromotionsPage;

@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Header } from 'components/layouts/Header';
+import { Footer } from 'components/layouts/Footer';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 const Layout = (props: any) => {
@@ -18,17 +20,13 @@ const Layout = (props: any) => {
     return (
         <>
             <div>
-                <header>
-                    <Link href="/" className="">Top</Link>/
-                    <Link href="/posts" className="">posts</Link>/
-                    <Link href="/mypage" className="">mypage</Link>
-                </header>
+                <Header />
                 <main>
-                    <QueryClientProvider client={queryClient} contextSharing={true}>
+                    <QueryClientProvider client={queryClient}>
                         {props.children}
                     </QueryClientProvider>
                 </main>
-                <footer>footer</footer>
+                <Footer />
             </div>
         </>
     )
